@@ -1,16 +1,21 @@
-import ollama
-import typer
+from ollama import Client
+from typer import Typer
+from rich.console import Console
+from rich.markdown import Markdown
 
-app = typer.Typer()
 
-client = ollama.Client()
+app = Typer()
+
+client = Client()
 model = "llama3"
+
+console = Console()
 
 
 @app.command()
 def ask(question: str):
     response = client.chat(
-        model="llama3",
+        model=model,
         messages=[
             {
                 "role": "user",
@@ -20,7 +25,11 @@ def ask(question: str):
         ],
     )
 
-    print(response.message.content)
+    if not response.message.content:
+        raise Exception("There was an error while generating a response")
+
+    markdown_content = Markdown(response.message.content)
+    console.print(markdown_content)
 
 
 if __name__ == "__main__":
