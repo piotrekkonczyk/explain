@@ -3,7 +3,7 @@ from typer import Typer
 from rich.console import Console
 from rich.markdown import Markdown
 
-from src.commands import answer
+from src.commands import answer, generate_docstring
 
 app = Typer()
 
@@ -26,16 +26,7 @@ def ask(question: str):
 
 @app.command()
 def docstring(function: str):
-    response = client.chat(
-        model=model,
-        messages=[
-            {
-                "role": "user",
-                "content": "Your goal will be to generate a docstring for provided function. Always assume that API's that are used inside the function are valid and try to understand them also. Describe the function, parameters and what it returns",
-            },
-            {"role": "user", "content": function},
-        ],
-    )
+    response = generate_docstring(client=client, model=model, function=function)
 
     if not response.message.content:
         raise Exception("There was an error while generating a response")
