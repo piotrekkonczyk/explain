@@ -1,6 +1,11 @@
 from ollama import Client, ChatResponse
 
-from src.get_prompts import ASK_PROMPT, DOCSTRING_PROMPT, REFACTOR_PROMPT
+from src.get_prompts import (
+    ASK_PROMPT,
+    DOCSTRING_PROMPT,
+    REFACTOR_PROMPT,
+    SUMMARIZE_PROMPT,
+)
 
 
 def answer(client: Client, model: str, question: str) -> ChatResponse:
@@ -43,3 +48,20 @@ def refactor_code(client: Client, model: str, code: str) -> ChatResponse:
     )
 
     return response
+
+
+def summarize_file(client: Client, model: str, file_path: str):
+    with open(file_path) as file:
+        file_content = file.read()
+
+        response = client.chat(
+            model=model,
+            messages=[
+                {
+                    "role": "user",
+                    "content": SUMMARIZE_PROMPT + "\n" + file_content,
+                },
+            ],
+        )
+
+        return response
