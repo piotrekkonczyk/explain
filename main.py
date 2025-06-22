@@ -3,6 +3,8 @@ from typer import Typer
 from rich.console import Console
 from rich.markdown import Markdown
 
+from src.commands import answer
+
 app = Typer()
 
 client = Client()
@@ -13,16 +15,7 @@ console = Console()
 
 @app.command()
 def ask(question: str):
-    response = client.chat(
-        model=model,
-        messages=[
-            {
-                "role": "user",
-                "content": "Your goal will be to answer the given question",
-            },
-            {"role": "user", "content": question},
-        ],
-    )
+    response = answer(client=client, model=model, question=question)
 
     if not response.message.content:
         raise Exception("There was an error while generating a response")
