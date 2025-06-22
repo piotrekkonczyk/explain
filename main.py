@@ -3,7 +3,6 @@ from typer import Typer
 from rich.console import Console
 from rich.markdown import Markdown
 
-from src.get_prompts import get_prompt
 from src.commands import answer, generate_docstring
 
 app = Typer()

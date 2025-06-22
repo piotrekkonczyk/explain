@@ -1,6 +1,6 @@
 from ollama import Client, ChatResponse
 
-from src.get_prompts import DOCSTRING_PROMPT
+from src.get_prompts import ASK_PROMPT, DOCSTRING_PROMPT
 
 
 def answer(client: Client, model: str, question: str) -> ChatResponse:
@@ -9,9 +9,8 @@ def answer(client: Client, model: str, question: str) -> ChatResponse:
         messages=[
             {
                 "role": "user",
-                "content": "Your goal will be to answer the given question",
+                "content": ASK_PROMPT + "\n" + question,
             },
-            {"role": "user", "content": question},
         ],
     )
 
@@ -24,7 +23,7 @@ def generate_docstring(client: Client, model: str, function: str) -> ChatRespons
         messages=[
             {
                 "role": "user",
-                "content": DOCSTRING_PROMPT + function,
+                "content": DOCSTRING_PROMPT + "\n" + function,
             },
         ],
     )

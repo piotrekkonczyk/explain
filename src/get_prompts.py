@@ -3,4 +3,5 @@ def get_prompt(file_path: str):
         return file.read()
 
 
+ASK_PROMPT = get_prompt("prompts/ask.txt")
 DOCSTRING_PROMPT = get_prompt("prompts/docstring.txt")
