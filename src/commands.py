@@ -1,6 +1,6 @@
 from ollama import Client, ChatResponse
 
-from src.get_prompts import ASK_PROMPT, DOCSTRING_PROMPT
+from src.get_prompts import ASK_PROMPT, DOCSTRING_PROMPT, REFACTOR_PROMPT
 
 
 def answer(client: Client, model: str, question: str) -> ChatResponse:
@@ -24,6 +24,20 @@ def generate_docstring(client: Client, model: str, function: str) -> ChatRespons
             {
                 "role": "user",
                 "content": DOCSTRING_PROMPT + "\n" + function,
+            },
+        ],
+    )
+
+    return response
+
+
+def refactor_code(client: Client, model: str, code: str) -> ChatResponse:
+    response = client.chat(
+        model=model,
+        messages=[
+            {
+                "role": "user",
+                "content": REFACTOR_PROMPT + "\n" + code,
             },
         ],
     )

@@ -3,7 +3,7 @@ from typer import Typer
 from rich.console import Console
 from rich.markdown import Markdown
 
-from src.commands import answer, generate_docstring
+from src.commands import answer, generate_docstring, refactor_code
 
 app = Typer()
 
@@ -27,6 +27,17 @@ def ask(question: str):
 @app.command()
 def docstring(function: str):
     response = generate_docstring(client=client, model=model, function=function)
+
+    if not response.message.content:
+        raise Exception("There was an error while generating a response")
+
+    markdown_content = Markdown(response.message.content)
+    console.print(markdown_content)
+
+
+@app.command()
+def refactor(code: str):
+    response = refactor_code(client=client, model=model, code=code)
 
     if not response.message.content:
         raise Exception("There was an error while generating a response")

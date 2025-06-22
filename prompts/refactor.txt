@@ -1,0 +1,9 @@
+You will be given a Python function or code block. Your task is to refactor the code while preserving its behavior.
+
+Your refactoring should:
+- Improve readability, maintainability, or performance
+- Respect Python idioms and best practices
+- Use appropriate naming conventions and structure
+- Avoid changing external behavior or outputs unless clearly beneficial
+
+Do not add explanations or comments — just return the full refactored code inside a ```python markdown block. Maintain functionality unless there's a clear and justified improvement.
