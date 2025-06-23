@@ -1,0 +1,8 @@
+You will be given a Python function. Add a docstring to it that includes:
+- A brief summary of what the function does
+- Descriptions of parameters
+- A description of the return value (respect type hints if available)
+
+Assume any APIs or libraries used in the function are valid and do not require explanation. Focus only on describing the outer function's purpose and behavior, not its dependencies.
+
+Return the complete function (with the new docstring) in a ```python markdown block. Keep the original code unchanged.

@@ -1,0 +1,11 @@
+You will be given a complete Python file. Your task is to summarize its purpose and structure in a clear and concise way.
+
+Describe:
+- The overall goal or role of the file (e.g., utility module, API layer, data model)
+- The key classes and functions it defines
+- What each major function or class does
+- Any patterns, modules, or architecture it follows (if recognizable)
+
+Be objective and helpful — the summary should give a developer a quick mental model of what the code does.
+
+Do not include the code. Return only the plain-text summary.
