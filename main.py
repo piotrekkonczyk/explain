@@ -1,7 +1,6 @@
 from ollama import Client
 from typer import Typer
 from rich.console import Console
-from rich.markdown import Markdown
 
 from src.commands import (
     answer,
@@ -30,45 +29,33 @@ def ask(question: str):
 @app.command()
 def docstring(function: str):
     response = generate_docstring(client=client, function=function)
+    message_content = verify_message_content(response.message.content)
 
-    if not response.message.content:
-        raise Exception("There was an error while generating a response")
-
-    markdown_content = Markdown(response.message.content)
-    console.print(markdown_content)
+    print_with_markdown(console=console, message_content=message_content)
 
 
 @app.command()
 def refactor(code: str):
     response = refactor_code(client=client, code=code)
+    message_content = verify_message_content(response.message.content)
 
-    if not response.message.content:
-        raise Exception("There was an error while generating a response")
-
-    markdown_content = Markdown(response.message.content)
-    console.print(markdown_content)
+    print_with_markdown(console=console, message_content=message_content)
 
 
 @app.command()
 def summarize(path: str):
     response = summarize_file(client=client, file_path=path)
+    message_content = verify_message_content(response.message.content)
 
-    if not response.message.content:
-        raise Exception("There was an error while generating a response")
-
-    markdown_content = Markdown(response.message.content)
-    console.print(markdown_content)
+    print_with_markdown(console=console, message_content=message_content)
 
 
 @app.command()
 def tests(function: str):
     response = suggest_tests(client=client, function=function)
+    message_content = verify_message_content(response.message.content)
 
-    if not response.message.content:
-        raise Exception("There was an error while generating a response")
-
-    markdown_content = Markdown(response.message.content)
-    console.print(markdown_content)
+    print_with_markdown(console=console, message_content=message_content)
 
 
 if __name__ == "__main__":
