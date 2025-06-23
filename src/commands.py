@@ -4,6 +4,7 @@ from src.get_prompts import (
     ASK_PROMPT,
     DOCSTRING_PROMPT,
     REFACTOR_PROMPT,
+    SUGGEST_TESTS_PROMPT,
     SUMMARIZE_PROMPT,
 )
 
@@ -65,3 +66,17 @@ def summarize_file(client: Client, model: str, file_path: str):
         )
 
         return response
+
+
+def suggest_tests(client: Client, model: str, function: str) -> ChatResponse:
+    response = client.chat(
+        model=model,
+        messages=[
+            {
+                "role": "user",
+                "content": SUGGEST_TESTS_PROMPT + "\n" + function,
+            },
+        ],
+    )
+
+    return response

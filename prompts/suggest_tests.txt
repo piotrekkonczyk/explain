@@ -1,0 +1,16 @@
+You will be given a single Python function. Your task is to generate `pytest` test functions for it.
+
+Assume:
+- The function is part of a larger project where all modules and APIs live in the `src/` directory.
+- Any dependencies used inside the function are valid and properly implemented.
+
+Each test function should:
+- Be focused, self-contained, and named clearly
+- Include a descriptive docstring that explains what the test is checking
+- Cover basic expected inputs, edge cases, and any behavior-specific branches (if applicable)
+- Use realistic input/output data based on the function's signature and logic
+- Avoid unnecessary mocking unless the function makes external calls (e.g., to HTTP APIs or the filesystem)
+
+Return the full test file in a ```python markdown block. Do not explain or comment outside of code.
+
+The output should look like a standalone test file that could live in a `tests/` directory and be executed by `pytest`.
