@@ -9,9 +9,8 @@ from src.get_prompts import (
 )
 
 
-def answer(client: Client, model: str, question: str) -> ChatResponse:
+def answer(client: Client, question: str) -> ChatResponse:
     response = client.chat(
-        model=model,
         messages=[
             {
                 "role": "user",
@@ -23,9 +22,8 @@ def answer(client: Client, model: str, question: str) -> ChatResponse:
     return response
 
 
-def generate_docstring(client: Client, model: str, function: str) -> ChatResponse:
+def generate_docstring(client: Client, function: str) -> ChatResponse:
     response = client.chat(
-        model=model,
         messages=[
             {
                 "role": "user",
@@ -37,9 +35,8 @@ def generate_docstring(client: Client, model: str, function: str) -> ChatRespons
     return response
 
 
-def refactor_code(client: Client, model: str, code: str) -> ChatResponse:
+def refactor_code(client: Client, code: str) -> ChatResponse:
     response = client.chat(
-        model=model,
         messages=[
             {
                 "role": "user",
@@ -51,12 +48,11 @@ def refactor_code(client: Client, model: str, code: str) -> ChatResponse:
     return response
 
 
-def summarize_file(client: Client, model: str, file_path: str):
+def summarize_file(client: Client, file_path: str):
     with open(file_path) as file:
         file_content = file.read()
 
         response = client.chat(
-            model=model,
             messages=[
                 {
                     "role": "user",
@@ -68,9 +64,8 @@ def summarize_file(client: Client, model: str, file_path: str):
         return response
 
 
-def suggest_tests(client: Client, model: str, function: str) -> ChatResponse:
+def suggest_tests(client: Client, function: str) -> ChatResponse:
     response = client.chat(
-        model=model,
         messages=[
             {
                 "role": "user",

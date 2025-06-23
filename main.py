@@ -3,6 +3,7 @@ from typer import Typer
 from rich.console import Console
 from rich.markdown import Markdown
 
+from src.constants import MODEL
 from src.commands import (
     answer,
     generate_docstring,
@@ -13,15 +14,14 @@ from src.commands import (
 
 app = Typer()
 
-client = Client()
-model = "llama3"
+client = Client(model=MODEL)
 
 console = Console()
 
 
 @app.command()
 def ask(question: str):
-    response = answer(client=client, model=model, question=question)
+    response = answer(client=client, question=question)
 
     if not response.message.content:
         raise Exception("There was an error while generating a response")
@@ -32,7 +32,7 @@ def ask(question: str):
 
 @app.command()
 def docstring(function: str):
-    response = generate_docstring(client=client, model=model, function=function)
+    response = generate_docstring(client=client, function=function)
 
     if not response.message.content:
         raise Exception("There was an error while generating a response")
@@ -43,7 +43,7 @@ def docstring(function: str):
 
 @app.command()
 def refactor(code: str):
-    response = refactor_code(client=client, model=model, code=code)
+    response = refactor_code(client=client, code=code)
 
     if not response.message.content:
         raise Exception("There was an error while generating a response")
@@ -54,7 +54,7 @@ def refactor(code: str):
 
 @app.command()
 def summarize(path: str):
-    response = summarize_file(client=client, model=model, file_path=path)
+    response = summarize_file(client=client, file_path=path)
 
     if not response.message.content:
         raise Exception("There was an error while generating a response")
@@ -65,7 +65,7 @@ def summarize(path: str):
 
 @app.command()
 def tests(function: str):
-    response = suggest_tests(client=client, model=model, function=function)
+    response = suggest_tests(client=client, function=function)
 
     if not response.message.content:
         raise Exception("There was an error while generating a response")
