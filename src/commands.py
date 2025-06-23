@@ -1,5 +1,6 @@
 from ollama import Client, ChatResponse
 
+from src.chat_with_model import chat_with_model
 from src.get_prompts import (
     ASK_PROMPT,
     DOCSTRING_PROMPT,
@@ -9,74 +10,26 @@ from src.get_prompts import (
 )
 
 
-def answer(client: Client, model: str, question: str) -> ChatResponse:
-    response = client.chat(
-        model=model,
-        messages=[
-            {
-                "role": "user",
-                "content": ASK_PROMPT + "\n" + question,
-            },
-        ],
-    )
-
-    return response
+def answer(client: Client, question: str) -> ChatResponse:
+    return chat_with_model(client=client, prompt=ASK_PROMPT, content=question)
 
 
-def generate_docstring(client: Client, model: str, function: str) -> ChatResponse:
-    response = client.chat(
-        model=model,
-        messages=[
-            {
-                "role": "user",
-                "content": DOCSTRING_PROMPT + "\n" + function,
-            },
-        ],
-    )
-
-    return response
+def generate_docstring(client: Client, function: str) -> ChatResponse:
+    return chat_with_model(client=client, prompt=DOCSTRING_PROMPT, content=function)
 
 
-def refactor_code(client: Client, model: str, code: str) -> ChatResponse:
-    response = client.chat(
-        model=model,
-        messages=[
-            {
-                "role": "user",
-                "content": REFACTOR_PROMPT + "\n" + code,
-            },
-        ],
-    )
-
-    return response
+def refactor_code(client: Client, code: str) -> ChatResponse:
+    return chat_with_model(client=client, prompt=REFACTOR_PROMPT, content=code)
 
 
-def summarize_file(client: Client, model: str, file_path: str):
+def summarize_file(client: Client, file_path: str):
     with open(file_path) as file:
         file_content = file.read()
 
-        response = client.chat(
-            model=model,
-            messages=[
-                {
-                    "role": "user",
-                    "content": SUMMARIZE_PROMPT + "\n" + file_content,
-                },
-            ],
+        return chat_with_model(
+            client=client, prompt=SUMMARIZE_PROMPT, content=file_content
         )
 
-        return response
 
-
-def suggest_tests(client: Client, model: str, function: str) -> ChatResponse:
-    response = client.chat(
-        model=model,
-        messages=[
-            {
-                "role": "user",
-                "content": SUGGEST_TESTS_PROMPT + "\n" + function,
-            },
-        ],
-    )
-
-    return response
+def suggest_tests(client: Client, function: str) -> ChatResponse:
+    return chat_with_model(client=client, prompt=SUGGEST_TESTS_PROMPT, content=function)
