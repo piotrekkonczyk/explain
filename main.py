@@ -3,7 +3,6 @@ from typer import Typer
 from rich.console import Console
 from rich.markdown import Markdown
 
-from src.constants import MODEL
 from src.commands import (
     answer,
     generate_docstring,
@@ -11,10 +10,11 @@ from src.commands import (
     suggest_tests,
     summarize_file,
 )
+from src.utils import print_with_markdown, verify_message_content
 
 app = Typer()
 
-client = Client(model=MODEL)
+client = Client()
 
 console = Console()
 
@@ -22,12 +22,9 @@ console = Console()
 @app.command()
 def ask(question: str):
     response = answer(client=client, question=question)
+    message_content = verify_message_content(response.message.content)
 
-    if not response.message.content:
-        raise Exception("There was an error while generating a response")
-
-    markdown_content = Markdown(response.message.content)
-    console.print(markdown_content)
+    print_with_markdown(console=console, message_content=message_content)
 
 
 @app.command()
