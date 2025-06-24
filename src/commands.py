@@ -14,12 +14,12 @@ def answer(client: Client, question: str) -> ChatResponse:
     return chat_with_model(client=client, prompt=ASK_PROMPT, content=question)
 
 
-def generate_docstring(client: Client, function: str) -> ChatResponse:
-    return chat_with_model(client=client, prompt=DOCSTRING_PROMPT, content=function)
+def generate_docstring(client: Client, input: str) -> ChatResponse:
+    return chat_with_model(client=client, prompt=DOCSTRING_PROMPT, content=input)
 
 
-def refactor_code(client: Client, code: str) -> ChatResponse:
-    return chat_with_model(client=client, prompt=REFACTOR_PROMPT, content=code)
+def refactor_code(client: Client, input: str) -> ChatResponse:
+    return chat_with_model(client=client, prompt=REFACTOR_PROMPT, content=input)
 
 
 def summarize_file(client: Client, file_path: str):
@@ -31,5 +31,5 @@ def summarize_file(client: Client, file_path: str):
         )
 
 
-def suggest_tests(client: Client, function: str) -> ChatResponse:
-    return chat_with_model(client=client, prompt=SUGGEST_TESTS_PROMPT, content=function)
+def suggest_tests(client: Client, input: str) -> ChatResponse:
+    return chat_with_model(client=client, prompt=SUGGEST_TESTS_PROMPT, content=input)

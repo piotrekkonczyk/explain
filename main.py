@@ -30,9 +30,9 @@ def ask(question: str):
 def docstring(input: str, file: bool = False):
     if file:
         file_content = get_file_content(input)
-        response = generate_docstring(client=client, function=file_content)
+        response = generate_docstring(client=client, input=file_content)
     else:
-        response = generate_docstring(client=client, function=input)
+        response = generate_docstring(client=client, input=input)
 
     message_content = verify_message_content(response.message.content)
 
@@ -40,8 +40,13 @@ def docstring(input: str, file: bool = False):
 
 
 @app.command()
-def refactor(code: str):
-    response = refactor_code(client=client, code=code)
+def refactor(input: str, file: bool = False):
+    if file:
+        file_content = get_file_content(input)
+        response = refactor_code(client=client, input=file_content)
+    else:
+        response = refactor_code(client=client, input=input)
+
     message_content = verify_message_content(response.message.content)
 
     print_with_markdown(console=console, message_content=message_content)
@@ -56,8 +61,13 @@ def summarize(path: str):
 
 
 @app.command()
-def tests(function: str):
-    response = suggest_tests(client=client, function=function)
+def tests(input: str, file: bool = False):
+    if file:
+        file_content = get_file_content(input)
+        response = suggest_tests(client=client, input=file_content)
+    else:
+        response = suggest_tests(client=client, input=input)
+
     message_content = verify_message_content(response.message.content)
 
     print_with_markdown(console=console, message_content=message_content)
