@@ -9,7 +9,7 @@ from src.commands import (
     suggest_tests,
     summarize_file,
 )
-from src.utils import print_with_markdown, verify_message_content
+from src.utils import get_file_content, print_with_markdown, verify_message_content
 
 app = Typer()
 
@@ -27,8 +27,13 @@ def ask(question: str):
 
 
 @app.command()
-def docstring(function: str):
-    response = generate_docstring(client=client, function=function)
+def docstring(input: str, file: bool = False):
+    if file:
+        file_content = get_file_content(input)
+        response = generate_docstring(client=client, function=file_content)
+    else:
+        response = generate_docstring(client=client, function=input)
+
     message_content = verify_message_content(response.message.content)
 
     print_with_markdown(console=console, message_content=message_content)
