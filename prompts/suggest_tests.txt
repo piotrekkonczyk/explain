@@ -1,16 +1,21 @@
-You will be given a single Python function. Your task is to generate `pytest` test functions for it.
+You will be given either a single Python function or a complete Python file.
+
+Your task is to generate `pytest` test functions that validate the behavior of the given code.
 
 Assume:
-- The function is part of a larger project where all modules and APIs live in the `src/` directory.
-- Any dependencies used inside the function are valid and properly implemented.
+- The code belongs to a project where all modules and APIs are located under the `src/` directory.
+- All imported or used APIs are valid and properly implemented.
 
-Each test function should:
-- Be focused, self-contained, and named clearly
-- Include a descriptive docstring that explains what the test is checking
-- Cover basic expected inputs, edge cases, and any behavior-specific branches (if applicable)
-- Use realistic input/output data based on the function's signature and logic
-- Avoid unnecessary mocking unless the function makes external calls (e.g., to HTTP APIs or the filesystem)
+For each function:
+- Write focused, self-contained test functions with clear, descriptive names
+- Include a short docstring in each test that explains what is being tested
+- Cover standard use cases, edge cases, and any notable control flow branches
+- Use realistic input/output values based on the function's logic and type hints
+- Avoid mocking unless the function makes external calls (e.g., HTTP, filesystem, subprocess)
 
-Return the full test file in a ```python markdown block. Do not explain or comment outside of code.
+If the input contains multiple functions, organize the tests logically:
+- Output them as separate test files if needed
+- Separate multiple files with a clear markdown header (e.g., `### test_<function_name>.py`)
+- Return all test code wrapped in ```python markdown blocks
 
-The output should look like a standalone test file that could live in a `tests/` directory and be executed by `pytest`.
+Do not explain the code or comment outside of code blocks. The result should be ready to place inside a `tests/` directory and be executable by `pytest`.
