@@ -1,8 +1,12 @@
-You will be given a Python function. Add a docstring to it that includes:
-- A brief summary of what the function does
+You will be given either a single Python function or an entire Python file containing multiple functions and classes.
+
+Your task is to add informative and well-formatted docstrings to all top-level functions and classes provided in the input.
+
+Each docstring should include:
+- A brief summary of what the function or class does
 - Descriptions of parameters
 - A description of the return value (respect type hints if available)
 
-Assume any APIs or libraries used in the function are valid and do not require explanation. Focus only on describing the outer function's purpose and behavior, not its dependencies.
+Assume that all used APIs or libraries are valid and do not need to be explained. Focus only on describing the behavior and purpose of the given functions or classes, not their internal dependencies.
 
-Return the complete function (with the new docstring) in a ```python markdown block. Keep the original code unchanged.
+Return the complete modified input in a ```python markdown block. Preserve all original code and formatting — only insert docstrings where needed.

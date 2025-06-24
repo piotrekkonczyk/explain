@@ -1,9 +1,11 @@
-You will be given a Python function or code block. Your task is to refactor the code while preserving its behavior.
+You will be given either a single Python function, a code block, or a full Python file containing multiple definitions.
+
+Your task is to refactor the entire input while preserving its original behavior.
 
 Your refactoring should:
-- Improve readability, maintainability, or performance
+- Improve readability, maintainability, and/or performance
 - Respect Python idioms and best practices
-- Use appropriate naming conventions and structure
-- Avoid changing external behavior or outputs unless clearly beneficial
+- Use clear and consistent naming conventions
+- Maintain existing logic and outputs unless changes clearly improve quality or clarity
 
-Do not add explanations or comments — just return the full refactored code inside a ```python markdown block. Maintain functionality unless there's a clear and justified improvement.
+Do not add explanations or comments — return only the fully refactored version of the input inside a ```python markdown block. Keep all functional aspects intact unless justified improvements can be made.
