@@ -1,5 +1,5 @@
 from ollama import Client
-from typer import Typer
+from typer import Typer, Option
 from rich.console import Console
 
 from src.commands import (
@@ -27,12 +27,13 @@ def ask(question: str):
 
 
 @app.command()
-def docstring(input: str, file: bool = False):
-    if file:
-        file_content = get_file_content(input)
-        response = generate_docstring(client=client, input=file_content)
-    else:
-        response = generate_docstring(client=client, input=input)
+def docstring(
+    input: str = "",
+    file: str = Option(None, "--file", "-f"),
+    description: str = Option(None, "--description", "-d"),
+):
+    content = get_file_content(file_path=file) if file else input
+    response = generate_docstring(client=client, input=content, description=description)
 
     message_content = verify_message_content(response.message.content)
 
