@@ -46,5 +46,12 @@ def summarize_file(client: Client, file_path: str, description: str | None = Non
         )
 
 
-def suggest_tests(client: Client, input: str) -> ChatResponse:
-    return chat_with_model(client=client, prompt=SUGGEST_TESTS_PROMPT, content=input)
+def suggest_tests(
+    client: Client, input: str, description: str | None = None
+) -> ChatResponse:
+    return chat_with_model(
+        client=client,
+        prompt=SUGGEST_TESTS_PROMPT,
+        content=input,
+        description=description,
+    )

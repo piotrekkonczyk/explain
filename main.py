@@ -11,7 +11,7 @@ from src.commands import (
 )
 from src.utils import get_file_content, print_with_markdown, verify_message_content
 
-app = Typer()
+app = Typer(no_args_is_help=True)
 
 client = Client()
 
@@ -32,7 +32,7 @@ def ask(
         help="Additional context or intent to help refine the model's answer.",
     ),
 ):
-    response = answer(client=client, question=question)
+    response = answer(client=client, question=question, description=description)
     message_content = verify_message_content(response.message.content)
 
     print_with_markdown(console=console, message_content=message_content)
@@ -64,34 +64,79 @@ def docstring(
     print_with_markdown(console=console, message_content=message_content)
 
 
-@app.command()
-def refactor(input: str, file: bool = False):
-    if file:
-        file_content = get_file_content(input)
-        response = refactor_code(client=client, input=file_content)
-    else:
-        response = refactor_code(client=client, input=input)
+@app.command(help="Refactor Python code blocks or entire files to improve quality.")
+def refactor(
+    code: str = Option(
+        None,
+        "--code",
+        "-c",
+        help="Inline Python code to be refactored.",
+    ),
+    file: str = Option(
+        None,
+        "--file",
+        "-f",
+        help="Path to a file to be refactored.",
+    ),
+    description: str = Option(
+        None,
+        "--description",
+        "-d",
+        help="Additional instruction to guide the refactor (e.g., 'simplify loop', 'use list comprehension').",
+    ),
+):
+    content = get_file_content(file_path=file) if file else code
+    response = refactor_code(client=client, input=content, description=description)
 
     message_content = verify_message_content(response.message.content)
 
     print_with_markdown(console=console, message_content=message_content)
 
 
-@app.command()
-def summarize(path: str):
-    response = summarize_file(client=client, file_path=path)
+@app.command(help="Summarize the purpose and structure of a Python file.")
+def summarize(
+    file: str = Option(
+        ...,
+        "--file",
+        "-f",
+        help="Path to the Python file that should be summarized.",
+    ),
+    description: str = Option(
+        None,
+        "--description",
+        "-d",
+        help="Optional extra instruction for the model (e.g., 'focus on data models only').",
+    ),
+):
+    response = summarize_file(client=client, file_path=file, description=description)
     message_content = verify_message_content(response.message.content)
 
     print_with_markdown(console=console, message_content=message_content)
 
 
-@app.command()
-def tests(input: str, file: bool = False):
-    if file:
-        file_content = get_file_content(input)
-        response = suggest_tests(client=client, input=file_content)
-    else:
-        response = suggest_tests(client=client, input=input)
+@app.command(help="Generate pytest tests for a Python function or file.")
+def tests(
+    code: str = Option(
+        None,
+        "--code",
+        "-c",
+        help="Inline Python function to generate tests for.",
+    ),
+    file: str = Option(
+        None,
+        "--file",
+        "-f",
+        help="Path to a Python file for which to generate tests.",
+    ),
+    description: str = Option(
+        None,
+        "--description",
+        "-d",
+        help="Optional instruction to guide test generation (e.g., 'focus on edge cases', 'assume high I/O volume').",
+    ),
+):
+    content = get_file_content(file) if file else code
+    response = suggest_tests(client=client, input=content, description=description)
 
     message_content = verify_message_content(response.message.content)
 
