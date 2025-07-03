@@ -1,5 +1,5 @@
 from ollama import Client
-from typer import Typer, Option
+from typer import Argument, Typer, Option
 from rich.console import Console
 
 from src.commands import (
@@ -18,8 +18,20 @@ client = Client()
 console = Console()
 
 
-@app.command()
-def ask(question: str):
+@app.command(help="Ask a programming or software-related question.")
+def ask(
+    question: str = Argument(
+        "",
+        help="A programming-related question the model should answer.",
+        show_default=False,
+    ),
+    description: str = Option(
+        None,
+        "--description",
+        "-d",
+        help="Additional context or intent to help refine the model's answer.",
+    ),
+):
     response = answer(client=client, question=question)
     message_content = verify_message_content(response.message.content)
 

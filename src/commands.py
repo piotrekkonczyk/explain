@@ -10,8 +10,12 @@ from src.get_prompts import (
 )
 
 
-def answer(client: Client, question: str) -> ChatResponse:
-    return chat_with_model(client=client, prompt=ASK_PROMPT, content=question)
+def answer(
+    client: Client, question: str, description: str | None = None
+) -> ChatResponse:
+    return chat_with_model(
+        client=client, prompt=ASK_PROMPT, content=question, description=description
+    )
 
 
 def generate_docstring(
