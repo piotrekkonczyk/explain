@@ -1,5 +1,5 @@
 from ollama import Client
-from typer import Typer, Option, Argument
+from typer import Typer, Option
 from rich.console import Console
 
 from src.commands import (
@@ -28,8 +28,11 @@ def ask(question: str):
 
 @app.command(help="Add docstrings to python code blocks or entire files.")
 def docstring(
-    input: str = Argument(
-        "", help="Content of the function that model will try to document."
+    code: str = Option(
+        None,
+        "--code",
+        "-c",
+        help="Content of the function that model will try to document.",
     ),
     file: str = Option(
         None, "--file", "-f", help="Path to file that should be documented."
@@ -41,7 +44,7 @@ def docstring(
         help="Additional description to precise what the model should focus on.",
     ),
 ):
-    content = get_file_content(file_path=file) if file else input
+    content = get_file_content(file_path=file) if file else code
     response = generate_docstring(client=client, input=content, description=description)
 
     message_content = verify_message_content(response.message.content)
