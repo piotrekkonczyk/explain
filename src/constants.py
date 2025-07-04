@@ -1,1 +1,1 @@
-MODEL = "llama3"
+MODEL = "qwen2.5-coder"
