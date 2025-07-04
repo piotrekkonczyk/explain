@@ -5,15 +5,13 @@ from src.constants import MODEL
 def chat_with_model(
     client: Client, prompt: str, content: str, description: str | None = None
 ) -> ChatResponse:
-    user_prompt = prompt
-
     if description:
-        user_prompt += f"The user has also requested to {description.strip()}"
+        content += f"I would also like you to {description.strip()}"
 
     response = client.chat(
         model=MODEL,
         messages=[
-            {"role": "system", "content": user_prompt},
+            {"role": "system", "content": prompt},
             {"role": "user", "content": content},
         ],
     )
