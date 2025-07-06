@@ -2,13 +2,13 @@ from ollama import Client
 from typer import Argument, Typer, Option
 from rich.console import Console
 
-from src.commands import (
-    answer,
-    generate_docstring,
-    refactor_code,
-    suggest_tests,
-    summarize_file,
+from src.get_prompts import (
+    ASK_PROMPT,
+    DOCSTRING_PROMPT,
+    REFACTOR_PROMPT,
+    SUGGEST_TESTS_PROMPT,
 )
+from src.chat_with_model import chat_with_model
 from src.utils import get_file_content, print_with_markdown, verify_message_content
 
 app = Typer(no_args_is_help=True)
@@ -31,8 +31,24 @@ def ask(
         "-d",
         help="Additional context or intent to help refine the model's answer.",
     ),
+    model: str = Option(
+        None,
+        "--model",
+        "-m",
+        help=(
+            "Optional name of the LLM to use (e.g., 'llama3', 'qwen2.5-coder', 'codellama:13b'). "
+            "Defaults to the model configured globally or in your client."
+        ),
+    ),
 ):
-    response = answer(client=client, question=question, description=description)
+    response = chat_with_model(
+        client=client,
+        prompt=ASK_PROMPT,
+        content=question,
+        description=description,
+        model=model,
+    )
+    # response = answer(client=client, question=question, description=description)
     message_content = verify_message_content(response.message.content)
 
     print_with_markdown(console=console, message_content=message_content)
@@ -55,9 +71,24 @@ def docstring(
         "-d",
         help="Additional description to precise what the model should focus on.",
     ),
+    model: str = Option(
+        None,
+        "--model",
+        "-m",
+        help=(
+            "Optional name of the LLM to use (e.g., 'llama3', 'qwen2.5-coder', 'codellama:13b'). "
+            "Defaults to the model configured globally or in your client."
+        ),
+    ),
 ):
     content = get_file_content(file_path=file) if file else code
-    response = generate_docstring(client=client, input=content, description=description)
+    response = chat_with_model(
+        client=client,
+        prompt=DOCSTRING_PROMPT,
+        content=content,
+        description=description,
+        model=model,
+    )
 
     message_content = verify_message_content(response.message.content)
 
@@ -84,9 +115,25 @@ def refactor(
         "-d",
         help="Additional instruction to guide the refactor (e.g., 'simplify loop', 'use list comprehension').",
     ),
+    model: str = Option(
+        None,
+        "--model",
+        "-m",
+        help=(
+            "Optional name of the LLM to use (e.g., 'llama3', 'qwen2.5-coder', 'codellama:13b'). "
+            "Defaults to the model configured globally or in your client."
+        ),
+    ),
 ):
     content = get_file_content(file_path=file) if file else code
-    response = refactor_code(client=client, input=content, description=description)
+
+    response = chat_with_model(
+        client=client,
+        prompt=REFACTOR_PROMPT,
+        content=content,
+        description=description,
+        model=model,
+    )
 
     message_content = verify_message_content(response.message.content)
 
@@ -107,8 +154,19 @@ def summarize(
         "-d",
         help="Optional extra instruction for the model (e.g., 'focus on data models only').",
     ),
+    model: str = Option(
+        None,
+        "--model",
+        "-m",
+        help=(
+            "Optional name of the LLM to use (e.g., 'llama3', 'qwen2.5-coder', 'codellama:13b'). "
+            "Defaults to the model configured globally or in your client."
+        ),
+    ),
 ):
-    response = summarize_file(client=client, file_path=file, description=description)
+    response = summarize_file(
+        client=client, file_path=file, description=description, model=model
+    )
     message_content = verify_message_content(response.message.content)
 
     print_with_markdown(console=console, message_content=message_content)
@@ -134,9 +192,24 @@ def tests(
         "-d",
         help="Optional instruction to guide test generation (e.g., 'focus on edge cases', 'assume high I/O volume').",
     ),
+    model: str = Option(
+        None,
+        "--model",
+        "-m",
+        help=(
+            "Optional name of the LLM to use (e.g., 'llama3', 'qwen2.5-coder', 'codellama:13b'). "
+            "Defaults to the model configured globally or in your client."
+        ),
+    ),
 ):
     content = get_file_content(file) if file else code
-    response = suggest_tests(client=client, input=content, description=description)
+    response = chat_with_model(
+        client=client,
+        prompt=SUGGEST_TESTS_PROMPT,
+        content=content,
+        description=description,
+        model=model,
+    )
 
     message_content = verify_message_content(response.message.content)
 
