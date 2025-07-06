@@ -11,6 +11,7 @@ def chat_with_model(
 ) -> ChatResponse:
     if description:
         content += f"I would also like you to {description.strip()}"
+        prompt += f"I would also like you to {description.strip()}"
 
     response = client.chat(
         model=model,

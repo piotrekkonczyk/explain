@@ -2,6 +2,7 @@ from ollama import Client
 from typer import Argument, Typer, Option
 from rich.console import Console
 
+from src.commands import summarize_file
 from src.get_prompts import (
     ASK_PROMPT,
     DOCSTRING_PROMPT,
@@ -48,7 +49,6 @@ def ask(
         description=description,
         model=model,
     )
-    # response = answer(client=client, question=question, description=description)
     message_content = verify_message_content(response.message.content)
 
     print_with_markdown(console=console, message_content=message_content)
