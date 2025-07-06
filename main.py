@@ -4,8 +4,8 @@ from rich.console import Console
 
 from src.commands import summarize_file
 from src.get_prompts import (
-    ASK_PROMPT,
     DOCSTRING_PROMPT,
+    PROMPTS,
     REFACTOR_PROMPT,
     SUGGEST_TESTS_PROMPT,
 )
@@ -44,7 +44,7 @@ def ask(
 ):
     response = chat_with_model(
         client=client,
-        prompt=ASK_PROMPT,
+        prompt=PROMPTS.ASK_PROMPT.value,
         content=question,
         description=description,
         model=model,
