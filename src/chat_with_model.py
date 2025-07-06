@@ -7,14 +7,14 @@ def chat_with_model(
     prompt: str,
     content: str,
     description: str | None = None,
-    model: str = MODEL,
+    model: str | None = None,
 ) -> ChatResponse:
     if description:
         content += f"I would also like you to {description.strip()}"
         prompt += f"I would also like you to {description.strip()}"
 
     response = client.chat(
-        model=model,
+        model=model if model else MODEL,
         messages=[
             {"role": "system", "content": prompt},
             {"role": "user", "content": content},
