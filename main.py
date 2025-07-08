@@ -142,11 +142,10 @@ def refactor(
 
 @app.command(help="Summarize the purpose and structure of a Python file.")
 def summarize(
-    file: str = Option(
-        ...,
-        "--file",
-        "-f",
+    file: str = Argument(
+        "",
         help="Path to the Python file that should be summarized.",
+        show_default=False,
     ),
     description: str = Option(
         None,
