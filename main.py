@@ -4,11 +4,9 @@ from rich.console import Console
 
 from src.commands import summarize_file
 from src.get_prompts import (
-    DOCSTRING_PROMPT,
     PROMPTS,
-    REFACTOR_PROMPT,
-    SUGGEST_TESTS_PROMPT,
 )
+
 from src.chat_with_model import chat_with_model
 from src.utils import get_file_content, print_with_markdown, verify_message_content
 
@@ -84,7 +82,7 @@ def docstring(
     content = get_file_content(file_path=file) if file else code
     response = chat_with_model(
         client=client,
-        prompt=DOCSTRING_PROMPT,
+        prompt=PROMPTS.DOCSTRING_PROMPT.value,
         content=content,
         description=description,
         model=model,
@@ -129,7 +127,7 @@ def refactor(
 
     response = chat_with_model(
         client=client,
-        prompt=REFACTOR_PROMPT,
+        prompt=PROMPTS.REFACTOR_PROMPT.value,
         content=content,
         description=description,
         model=model,
@@ -204,7 +202,7 @@ def tests(
     content = get_file_content(file) if file else code
     response = chat_with_model(
         client=client,
-        prompt=SUGGEST_TESTS_PROMPT,
+        prompt=PROMPTS.SUGGEST_TESTS_PROMPT.value,
         content=content,
         description=description,
         model=model,
